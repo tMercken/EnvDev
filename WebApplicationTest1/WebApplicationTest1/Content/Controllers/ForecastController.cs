@@ -7,17 +7,18 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplicationTest1.Models;
 
+
 namespace WebApplicationTest1.Controllers
 {
     public class ForecastController : ApiController
     {
         public CityForecast[] Get()
         {
-            // CityForecast namurForecast = new CityForecast("namur", 5);
-            //CityForecast monsForecast = new CityForecast("mons", 5);
+            CityForecast namurForecast = new CityForecast("namur", 5);
+            CityForecast monsForecast = new CityForecast("mons", 5);
             return new CityForecast[] { new CityForecast("namur", 5), new CityForecast("mons", 5) };
 
-            return (GetForecastFromDatabase());
+            //return (GetForecastFromDatabase());
         }
 
 
@@ -25,7 +26,9 @@ namespace WebApplicationTest1.Controllers
         {
             SqlConnection connection = new SqlConnection(@"Data Source = (LocalDb)\MSSQLLocalDb; Initial Catalog = bobLeServeur; Integrated Security = True; Pooling = False");
             SqlCommand cmd = new SqlCommand("SELECT * FROM[Table]", connection);
-            SqlDataReader reader = cmd.ExecuteReader();
+            connection.Open();
+            SqlDataReader reader;
+            reader = cmd.ExecuteReader();
 
             List<CityForecast> forecasts = new List<CityForecast>();
 
